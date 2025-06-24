@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="THE-Tree: Can Tracing Historical Evolution Enhance Scientific Verification and Reasoning?">
+  <meta property="og:title" content="THE-Tree: Can Tracing Historical Evolution Enhance Scientific Verification and Reasoning?" />
+  <meta property="og:description" content="THE-Tree is a computational framework that constructs domain-specific evolution trees from scientific literature to address the absence of structured, verifiable, and causally-linked historical data of scientific evolution." />
+  <meta property="og:url" content="URL OF THE WEBSITE" />
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/images/teaser.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+
+  <meta name="twitter:title" content="THE-Tree: Can Tracing Historical Evolution Enhance Scientific Verification and Reasoning?">
+  <meta name="twitter:description" content="THE-Tree is a computational framework that constructs domain-specific evolution trees from scientific literature.">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/teaser.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="Scientific Discovery, Technology Evolution, Language Models, Computable Science History">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>THE-Tree</title>
+  <link rel="icon" href="static/images/tree_icon.png"/>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    .findings-box {
+      border: 2px solid #d0d9e0;
+      border-radius: 8px;
+      padding: 10px 15px;
+      display: inline-block;
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 16px;
+      line-height: 1.5;
+      background-color: #f9f9f9;
+    }
+
+    .findings-box .title {
+      font-weight: bold;
+      text-decoration: underline;
+      font-size: 18px;
+    }
+
+    .findings-box .content {
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-2 publication-title">THE-Tree: Can Tracing Historical Evolution Enhance Scientific Verification and Reasoning?</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">Xin Wang<sup>1,2</sup>,</span>
+              <span class="author-block">Jiyao Liu<sup>2</sup>,</span>
+              <span class="author-block">Yulong Xiao<sup>2</sup>,</span>
+              <span class="author-block">Junzhi Ning<sup>2</sup>,</span>
+              <span class="author-block">Lihao Liu<sup>2</sup>,</span>
+              <span class="author-block">Junjun He<sup>2</sup>,</span>
+              <span class="author-block">Botian Shi<sup>2,*</sup>,</span>
+              <span class="author-block">Kaicheng Yu<sup>1,*</sup></span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Westlake University,</span>
+              <span class="author-block"><sup>2</sup>Shanghai Artificial Intelligence Laboratory</span>
+              <br><sup>*</sup>Corresponding Author
+            </div>
+
+                <!-- Arxiv PDF link -->
+                <span class="link-block">
+                  <a href="" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper (Coming Soon)</span>
+                  </a>
+                </span>
+
+                <!-- Github link -->
+                <span class="link-block">
+                  <a href="" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code (Coming Soon)</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Paper abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Large Language Models (LLMs) are accelerating scientific idea generation, but rigorously evaluating these numerous, often superficial, AI-generated propositions for novelty and factual accuracy is a critical bottleneck; manual verification is too slow. Existing validation methods are inadequate: LLMs as standalone verifiers may hallucinate and lack domain knowledge (our findings show ~60% unawareness of relevant papers in specific domains), while traditional citation networks lack explicit causality and narrative surveys are unstructured. This underscores a core challenge: the absence of structured, verifiable, and causally-linked historical data of scientific evolution. To address this, we introduce <b>THE-Tree (Technology History Evolution Tree)</b>, a computational framework that constructs such domain-specific evolution trees from scientific literature. THE-Tree employs a search algorithm to explore evolutionary paths. During its node expansion, it utilizes a novel <b>"Think-Verbalize-Cite-Verify"</b> process: an LLM proposes potential advancements and cites supporting literature. Critically, each proposed evolutionary link is then validated for logical coherence and evidential support by a <b>recovered natural language inference mechanism</b> that interrogates the cited literature, ensuring that each step is grounded. We construct and validate 88 THE-Trees across diverse domains and release a benchmark dataset including up to 71k fact verifications covering 27k papers to foster further research. Experiments demonstrate that i) in graph completion, our THE-Tree improves hit@1 by 8% to 14% across multiple models compared to traditional citation networks; ii) for predicting future scientific developments, it improves hit@1 metric by nearly 10%; and iii) when combined with other methods, it boosts the performance of evaluating important scientific papers by almost 100%. By constructing explicit, verifiable pathways of scientific progression, THE-Tree provides a robust historical foundation for evaluating new hypotheses (human or AI-generated) and enables a computable science history, fostering evidence-based AI-driven scientific discovery.
+            </p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End paper abstract -->
+
+  <section class="section" id="Overview">
+  <div class="container is-max-desktop content">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-fifths">
+        <h2 class="title is-3">🌟Overview</h2>
+        <img src="static/images/teaser.png" alt="THE-Tree overview" width="100%"/>
+        <div class="content has-text-justified">
+          <p>
+            Automating scientific discovery has been a long-standing goal. While Large Language Models (LLMs) offer new avenues for hypothesis generation, a critical bottleneck remains: the effective evaluation and validation of scientific ideas. Current validation approaches face several critical challenges, including the time-consuming nature of manual verification and the limitations of automated validation using LLMs, such as hallucination and bias.
+          </p>
+          <p>
+            To address this, we propose leveraging the authentic patterns and causal evolutionary pathways from scientific history for more reliable assessment. We introduce <b>THE-Tree (Technology History Evolution Tree)</b>, a computational framework to construct structured, verifiable, domain-specific technology evolution trees from scientific literature. THE-Tree builds a topic's evolution by representing individual papers as nodes and the inferential relationships between them as edges, providing a solid factual basis and clear historical context for evaluating new hypotheses.
+          </p>
+          <p>
+            Our main contributions are:
+            <ul>
+              <li>A novel computational framework, THE-Tree, to construct and validate verifiable technology evolution trees from scientific literature.</li>
+              <li>A Retrieval-Augmented Natural Language Inference (RA-NLI) mechanism for rigorous validation of the logical and causal coherence of evolutionary relationships.</li>
+              <li>The construction and validation of a THE-Trees dataset, comprising 88 technology evolution trees and a benchmark of 71k fact verification evaluations.</li>
+              <li>A structured foundation for evaluating scientific ideas and supporting grounded AI-driven discovery processes.</li>
+            </ul>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Framework -->
+<section class="section" id="Framework">
+  <div class="container is-max-desktop content">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-fifths">
+        <h2 class="title is-3">🔍 THE-Tree as Scientific Verifier</h2>
+        <div class="content has-text-justified">
+          <p>
+            We introduce the <b>THE-Tree (Technology History Evolution Tree)</b> as a structured representation of scientific evolution. In a THE-Tree, each scientific paper is a node with rich metadata, and edges represent historical, inferential, and evolutionary relationships. Unlike traditional citation networks, edges in THE-Tree have deep semantic meaning, signifying causal contributions and logical foundations.
+          </p>
+          
+          <h3 class="title is-4">Leveraging THE-Tree for Verification</h3>
+          <img src="static/images/tree_use_2.png" alt="Using THE-Tree" width="80%">
+          <p>
+            Once constructed, a THE-Tree serves as a powerful instrument for verifying and contextualizing new scientific ideas. The process involves identifying the relevant topic space for a new paper, originating candidate paths in the corresponding THE-Tree, and performing historical path retrospection to situate the new research within established knowledge frameworks.
+          </p>
+
+          <h3 class="title is-4">Automated Construction of THE-Tree</h3>
+          <p>
+            We developed a computational framework for the automated construction of THE-Trees. This is formulated as an optimization problem to find paths in scientific literature that maximize a composite reward, reflecting node importance and path coherence:
+          </p>
+          <p class="has-text-centered">
+            \[ \max_{\text{Path}} \left( \sum_{v \in \text{Path}} S(v) + R_{\text{gen}} + R_{\text{attr}} \right) \]
+          </p>
+          <p>
+             Here, \(S(v)\) is the importance score of a paper, \(R_{\text{gen}}\) reflects path coherence, and \(R_{\text{attr}}\) validates the link between nodes. This objective is pursued using a <b>Self-Guided Temporal Monte Carlo Tree Search (SGT-MCTS)</b> algorithm. The selection of nodes during this search is guided by a SGT-UCT formula that incorporates LLM guidance and temporal coherence:
+          </p>
+          <p class="has-text-centered">
+            \[ \text{SGT-UCT}(v) = \left(\frac{Q(v)}{N(v)} + c \cdot \sqrt{\frac{\ln N(p)}{N(v)}} + \lambda \cdot \text{LLM}_{\text{priority}}(v)\right)\cdot \text{TempCoherence}(v | P_{prev}) \]
+          </p>
+          <p>
+            This formula balances exploitation (\(Q(v)/N(v)\)), exploration (\(c \cdot \sqrt{\ln N(p)/N(v)}\)), and LLM-guided priority, modulated by temporal coherence to ensure chronological consistency.
+          </p>
+        </div>
+
+        <h4 class="title is-5">THE-Tree Construction Pipeline Overview</h4>
+        <img src="static/images/overview.png" alt="THE-Tree framework" width="100%">
+        <div class="content has-text-justified">
+          <p>The construction pipeline consists of several key stages:</p>
+          <ul>
+              <li><b>Dataset Construction:</b> Building a foundation from authoritative scientific surveys.</li>
+              <li><b>Self-Guided Temporal Monte Carlo Tree Search (SGT-MCTS):</b> An algorithm to navigate the vast space of potential evolutionary paths.</li>
+              <li><b>Think-Verbalize-Cite-Verify (TVCV):</b> A methodology for node expansion within the SGT-MCTS. This process systematically generates, grounds, and validates new nodes (potential technological advancements) and their links within the tree:
+                <ul>
+                  <li><b>Think:</b> The LLM generates candidate technological advancements.</li>
+                  <li><b>Verbalize:</b> The LLM summarizes these ideas into concise propositions.</li>
+                  <li><b>Cite:</b> The LLM retrieves supporting scientific literature to ground the proposition.</li>
+                  <li><b>Verify:</b> The proposed relationship is rigorously validated for logical and causal coherence.</li>
+                </ul>
+              </li>
+              <li><b>Retrieval-Augmented Natural Language Inference (RA-NLI):</b> This mechanism performs the crucial "Verify" step. It uses a specialized NLI model to check if the new scientific contribution is logically entailed by the cited evidence, ensuring the soundness of each evolutionary link.</li>
+          </ul>
+          <img src="static/images/nli_frame.png" alt="RA-NLI framework" width="100%">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Framework -->
+
+  <!-- Experiments -->
+<section class="section" id="Experiments">
+  <div class="container is-max-desktop content">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-fifths">
+        <h2 class="title is-3">📊 Experiments</h2>
+        <p>
+          We conducted a series of experiments to validate the capabilities of THE-Tree in enhancing scientific evaluation, reconstructing technological trajectories, and predicting future scientific developments. For detailed information on dataset construction and evaluation metrics, please refer to the supplementary materials at the end of this page.
+        </p>
+
+        <!-- Experiment 1: NeurIPS Evaluation -->
+        <h3 class="title is-4">Experiment 1: THE-Tree Verifier for Scientific Evaluation</h3>
+        <p>
+          We investigated whether THE-Tree can enhance the verification capabilities of Large Language Models (LLMs) for evaluating scientific papers. The experiment focused on assessing NeurIPS 2024 submissions, leveraging THE-Tree to provide factual grounding and historical context to various LLMs.
+        </p>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <caption><b>Impact of THE-Tree Augmentation on LLM-based NeurIPS Paper Evaluation.</b> The table compares the performance of various LLMs in predicting paper acceptance/rejection and status (Poster, Spotlight, Oral) for NeurIPS 2024, with and without THE-Tree augmentation. Red text indicates improved performance with THE-Tree.</caption>
+            <thead>
+              <tr>
+                <th rowspan="3">Model</th>
+                <th colspan="7">NeurIPS 2024</th>
+              </tr>
+              <tr>
+                <th colspan="3">Accuracy of accept and reject</th>
+                <th colspan="4">Accuracy of Status</th>
+              </tr>
+              <tr>
+                <th>Acc%</th>
+                <th>Rej%</th>
+                <th>Total%</th>
+                <th>Poster%</th>
+                <th>Spot%</th>
+                <th>Oral%</th>
+                <th>Total%</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="8" class="has-text-centered"><b>Without THE-tree Augmentation</b></td>
+              </tr>
+              <tr>
+                <td>Qwen2.5-72b-instruct</td>
+                <td>99.63</td>
+                <td>0</td>
+                <td>25.70</td>
+                <td>1.24</td>
+                <td>100</td>
+                <td>0</td>
+                <td>2.42</td>
+              </tr>
+              <tr>
+                <td>Deep-Reviewer-14b</td>
+                <td>92.61</td>
+                <td>18.28</td>
+                <td>37.45</td>
+                <td>74.03</td>
+                <td>22.77</td>
+                <td>6.94</td>
+                <td>31.03</td>
+              </tr>
+              <tr>
+                <td>Deep-Reviewer-7b</td>
+                <td>86.79</td>
+                <td>19.78</td>
+                <td>37.07</td>
+                <td>60.42</td>
+                <td>19.05</td>
+                <td>0</td>
+                <td>28.9</td>
+              </tr>
+              <tr>
+                <td>GPT4-O</td>
+                <td>99.63</td>
+                <td>2.24</td>
+                <td>26.02</td>
+                <td>29.46</td>
+                <td>86.96</td>
+                <td>0</td>
+                <td>10.26</td>
+              </tr>
+              <tr>
+                <td>Claude-3.5-Sonnet</td>
+                <td>99.75</td>
+                <td>0.38</td>
+                <td>27.28</td>
+                <td>10.90</td>
+                <td>77.96</td>
+                <td>18.57</td>
+                <td>4.59</td>
+              </tr>
+              <tr>
+                <td>Deepseek-R1</td>
+                <td>100.0</td>
+                <td>2.00</td>
+                <td>26.03</td>
+                <td>54.13</td>
+                <td>53.31</td>
+                <td>0</td>
+                <td>15.00</td>
+              </tr>
+              <tr>
+                <td colspan="8" class="has-text-centered"><b>With THE-tree Augmentation</b></td>
+              </tr>
+               <tr>
+                <td>Qwen2.5-72b-instruct</td>
+                <td>99.84</td>
+                <td><span style="color:red;">0.37</span></td>
+                <td><span style="color:red;">26.03</span></td>
+                <td>1.76</td>
+                <td>97.38</td>
+                <td>0</td>
+                <td><span style="color:red;">2.76</span></td>
+              </tr>
+              <tr>
+                <td>Deep-Reviewer-14b</td>
+                <td>89.93</td>
+                <td><span style="color:red;">22.39</span></td>
+                <td><span style="color:red;">39.82</span></td>
+                <td>63.2</td>
+                <td><span style="color:red;">34.55</span></td>
+                <td><span style="color:red;">34.72</span></td>
+                <td><span style="color:red;">32.08</span></td>
+              </tr>
+              <tr>
+                <td>Deep-Reviewer-7b</td>
+                <td>76.12</td>
+                <td><span style="color:red;">63.69</span></td>
+                <td><span style="color:red;">66.90</span></td>
+                <td>57</td>
+                <td><span style="color:red;">24.99</span></td>
+                <td><span style="color:red;">2.33</span></td>
+                <td><span style="color:red;">60.84</span></td>
+              </tr>
+              <tr>
+                <td>GPT4-O</td>
+                <td>99.66</td>
+                <td><span style="color:red;">2.66</span></td>
+                <td><span style="color:red;">27.69</span></td>
+                <td>34.45</td>
+                <td>72</td>
+                <td><span style="color:red;">2.6</span></td>
+                <td><span style="color:red;">11.41</span></td>
+              </tr>
+              <tr>
+                <td>Claude-3.5-Sonnet</td>
+                <td>71.46</td>
+                <td><span style="color:red;">36.57</span></td>
+                <td><span style="color:red;">45.57</span></td>
+                <td>28.72</td>
+                <td>38.13</td>
+                <td><span style="color:red;">36.57</span></td>
+                <td><span style="color:red;">34.81</span></td>
+              </tr>
+              <tr>
+                <td>Deepseek-R1</td>
+                <td>99.57</td>
+                <td><span style="color:red;">3.42</span></td>
+                <td><span style="color:red;">28.23</span></td>
+                <td>56.49</td>
+                <td><span style="color:red;">56.66</span></td>
+                <td><span style="color:red;">2.6</span></td>
+                <td><span style="color:red;">16.68</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="content has-text-justified">
+           <p>
+              The results indicate that by providing scientific evolutionary context, THE-Tree significantly enhances the LLM's capability to determine paper acceptance. This augmentation notably improves the model's ability to reject low-quality submissions and is highly effective in identifying high-impact papers (Orals, Spotlights), in some cases nearly doubling the accuracy.
+           </p>
+        </div>
+        
+        <!-- Case Studies for Exp 1 -->
+        <h4 class="title is-5">Case Studies for Scientific Evaluation</h4>
+        <p>
+          To better illustrate the impact, we analyzed the performance of the DeepReviewer-14b model. The figure below shows the recall of correctly predicted important papers over time. Methods enhanced with THE-Tree consistently identify more important papers compared to baselines.
+        </p>
+        <img src="static/images/correct_prediction_recall_comparison.png" alt="Prediction Recall Comparison" width="80%">
+        <p>
+          Furthermore, with THE-Tree, its predictions for high-impact papers (Oral or Spotlight) shift more decisively towards the correct, higher-quality categories. In a specific analysis of the paper "Neural Pfaffians" (ground truth: Oral), the LLM without THE-Tree rated it as "poster", whereas the augmented LLM correctly predicted its status as "<b>oral</b>", demonstrating a more nuanced understanding of the paper's novelty and impact.
+        </p>
+        <img src="static/images/llm_oral_spotlight_distribution.png" alt="Prediction distribution for high-impact papers" width="100%">
+        <p class="has-text-centered">
+          Prediction distribution for high-impact papers shifts with THE-Tree.
+        </p>
+
+        <!-- Experiment 2: Quality Validation -->
+        <h3 class="title is-4">Experiment 2: THE-Tree Quality Validation</h3>
+        <p>
+          We validated the quality of the constructed THE-Trees from two perspectives: the effectiveness of the underlying validation mechanism (RA-NLI) and the quality of the reconstructed trees compared to an expert-refined ground truth.
+        </p>
+        <h4 class="title is-5">Effectiveness of RA-NLI</h4>
+        <p>
+          Our Retrieval-Augmented Natural Language Inference (RA-NLI) system is crucial for validating the evolutionary links within a THE-Tree. We compared its accuracy and fact-consistency against several SOTA models. The validation process can be formalized as follows, where for a given pair of technology nodes \(v_i\) and \(v_j\), we compute the attribution relationship:
+        </p>
+        <p class="has-text-centered">
+          \[
+          R_{\text{attr}}(v_i \to v_j) = \alpha \cdot \text{NLI}(s_i, s_j) + (1-\alpha) \cdot \text{LLM}_{\text{eval}}(s_i, s_j, C)
+          \]
+        </p>
+        <p>
+          Here, \(s_i\) and \(s_j\) are textual descriptions, \(C\) is retrieved context, and \(\alpha\) is a weighting parameter (0.7). As shown below, our RA-NLI method demonstrates a significantly lower fact-missing rate and the highest overall accuracy.
+        </p>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <caption><b>Comparison of Methods for Technology Tree Relationship Verification</b></caption>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Fact Missing Rate (%)</th>
+                <th>Accuracy (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Claude 3.5 Sonnet</td>
+                <td>47.93</td>
+                <td>60.22</td>
+              </tr>
+              <tr>
+                <td>GPT-4o</td>
+                <td>58.19</td>
+                <td>60.18</td>
+              </tr>
+              <tr>
+                <td>DeepSeek R1</td>
+                <td>48.16</td>
+                <td>76.40</td>
+              </tr>
+              <tr>
+                <td>Qwen 2.5-72B</td>
+                <td>58.29</td>
+                <td>53.95</td>
+              </tr>
+              <tr>
+                <td>DeepReviewer-7B</td>
+                <td>40.88</td>
+                <td>93.95</td>
+              </tr>
+              <tr>
+                <td>DeepReviewer-14B</td>
+                <td>68.84</td>
+                <td>76.41</td>
+              </tr>
+              <tr>
+                <td>LLaMA 3.1</td>
+                <td>42.29</td>
+                <td>60.40</td>
+              </tr>
+              <tr>
+                <td colspan="3" class="has-text-centered"><b>Factual Supplement</b></td>
+              </tr>
+              <tr>
+                <td>Claude 3.5 Sonnet w/ Fact</td>
+                <td>-</td>
+                <td>65.34</td>
+              </tr>
+              <tr>
+                <td>GPT-4o w/ Fact</td>
+                <td>-</td>
+                <td>69.40</td>
+              </tr>
+              <tr>
+                <td>DeepSeek R1 w/ Fact</td>
+                <td>-</td>
+                <td>81.60</td>
+              </tr>
+              <tr>
+                <td>Qwen 2.5-72B w/ Fact</td>
+                <td>-</td>
+                <td>66.80</td>
+              </tr>
+              <tr>
+                <td>DeepReviewer-7B w/ Fact</td>
+                <td>-</td>
+                <td>95.38</td>
+              </tr>
+              <tr>
+                <td>DeepReviewer-14B w/ Fact</td>
+                <td>-</td>
+                <td>82.09</td>
+              </tr>
+              <tr>
+                <td>LLaMA 3.1 w/ Fact</td>
+                <td>-</td>
+                <td>65.35</td>
+              </tr>
+              <tr>
+                <td><b>RA-NLI (Ours)</b></td>
+                <td><b>4.75</b></td>
+                <td><b>95.60</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <h4 class="title is-5">Technology Trajectory Reconstruction Quality</h4>
+        <p>We compared MCTS-generated THE-Trees against an expert-refined ground truth. The results show that our method achieves strong performance in recalling entities and relations validated by experts, with reasonable precision and F1-scores.</p>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <caption><b>Quantitative Comparison of THE-Tree Reconstruction Quality</b></caption>
+            <thead>
+              <tr>
+                <th rowspan="2">Method</th>
+                <th colspan="4">Entity</th>
+                <th colspan="3">Relation</th>
+              </tr>
+              <tr>
+                <th>Recall</th>
+                <th>Precision</th>
+                <th>F1</th>
+                <th>Avg_Time_Diff</th>
+                <th>Recall</th>
+                <th>Precision</th>
+                <th>F1</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Expert</td>
+                <td>1.00</td>
+                <td>1.00</td>
+                <td>1.00</td>
+                <td>2.93</td>
+                <td>1.00</td>
+                <td>1.00</td>
+                <td>1.00</td>
+              </tr>
+              <tr>
+                <td>THE-Tree</td>
+                <td>0.84</td>
+                <td>0.67</td>
+                <td>0.75</td>
+                <td>3.08</td>
+                <td>0.78</td>
+                <td>0.64</td>
+                <td>0.70</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="title is-5">Structural and Semantic Properties: Graph Completion</h4>
+        <p>We evaluated THE-Tree's ability to represent scientific knowledge structures via a graph completion task. This involved predicting missing evolutionary entities from a given year, using prior years' data as history. THE-Tree robustly outperformed traditional citation graphs, showcasing its superior efficacy in modeling latent knowledge structures.</p>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <caption><b>Comparison of Graph Completion Performance Between THE-Tree and Traditional Citation Graphs</b></caption>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Hit@1 (↑)</th>
+                <th>Hit@3 (↑)</th>
+                <th>Hit@5 (↑)</th>
+                <th>MR (↓)</th>
+                <th>MRR (↑)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="6" class="has-text-centered"><b>Graph built with Traditional Citations Relation</b></td>
+              </tr>
+              <tr>
+                <td>Qwen2.5-72b</td>
+                <td>0.585</td>
+                <td>0.848</td>
+                <td>0.911</td>
+                <td>1.806</td>
+                <td>0.763</td>
+              </tr>
+              <tr>
+                <td>Qwen2.5-32b</td>
+                <td>0.299</td>
+                <td>0.631</td>
+                <td>0.796</td>
+                <td>3.127</td>
+                <td>0.528</td>
+              </tr>
+              <tr>
+                <td>Qwen2.5-7b</td>
+                <td>0.253</td>
+                <td>0.679</td>
+                <td>0.810</td>
+                <td>3.078</td>
+                <td>0.511</td>
+              </tr>
+              <tr>
+                <td>Gemma-7b</td>
+                <td>0.163</td>
+                <td>0.627</td>
+                <td>0.786</td>
+                <td>3.497</td>
+                <td>0.436</td>
+              </tr>
+              <tr>
+                <td colspan="6" class="has-text-centered"><b>Graph built with Our Reasoning Relation</b></td>
+              </tr>
+              <tr>
+                <td>Qwen2.5-72b</td>
+                <td><b>0.721</b></td>
+                <td><b>0.906</b></td>
+                <td><b>0.931</b></td>
+                <td><b>1.427</b></td>
+                <td><b>0.859</b></td>
+              </tr>
+              <tr>
+                <td>Qwen2.5-32b</td>
+                <td><b>0.371</b></td>
+                <td><b>0.739</b></td>
+                <td><b>0.856</b></td>
+                <td><b>2.577</b></td>
+                <td><b>0.605</b></td>
+              </tr>
+              <tr>
+                <td>Qwen2.5-7b</td>
+                <td><b>0.259</b></td>
+                <td><b>0.707</b></td>
+                <td><b>0.815</b></td>
+                <td><b>2.995</b></td>
+                <td><b>0.521</b></td>
+              </tr>
+              <tr>
+                <td>Gemma-7b</td>
+                <td><b>0.240</b></td>
+                <td><b>0.656</b></td>
+                <td><b>0.798</b></td>
+                <td><b>3.269</b></td>
+                <td><b>0.490</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Experiment 3: Downstream Tasks -->
+        <h3 class="title is-4">Experiment 3: Future Scientific Discovery Prediction</h3>
+        <p>
+          To assess THE-Tree's proficiency in capturing scientific evolutionary dynamics, we conducted a future path prediction task. The goal was to forecast 'reasonable next steps' in research trajectories, given a THE-Tree constructed with data up to a certain year.
+        </p>
+        <div class="table-container">
+           <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <caption><b>Comparison of THE-Tree and Citation Graph on Future Path Prediction.</b></caption>
+            <thead>
+                <tr>
+                    <th rowspan="2">Model</th>
+                    <th rowspan="2">Graph</th>
+                    <th colspan="5">Entity</th>
+                    <th colspan="5">Relation</th>
+                </tr>
+                <tr>
+                    <th>Hit@1 (↑)</th>
+                    <th>Hit@3 (↑)</th>
+                    <th>Hit@5 (↑)</th>
+                    <th>MR (↓)</th>
+                    <th>MedianRank (↓)</th>
+                    <th>Hit@1 (↑)</th>
+                    <th>Hit@3 (↑)</th>
+                    <th>Hit@5 (↑)</th>
+                    <th>MR (↓)</th>
+                    <th>MedianRank (↓)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2">Qwen2.5-72b</td>
+                    <td>Citation</td>
+                    <td>0.1831</td>
+                    <td>0.5421</td>
+                    <td>0.7423</td>
+                    <td>3.6210</td>
+                    <td>3.5149</td>
+                    <td>0.1262</td>
+                    <td>0.2940</td>
+                    <td>0.4002</td>
+                    <td>4.5318</td>
+                    <td>4.3731</td>
+                </tr>
+                <tr>
+                    <td><b>THE-tree</b></td>
+                    <td><b>0.2813</b></td>
+                    <td><b>0.6073</b></td>
+                    <td><b>0.7746</b></td>
+                    <td><b>3.3961</b></td>
+                    <td><b>3.2288</b></td>
+                    <td><b>0.1693</b></td>
+                    <td><b>0.3143</b></td>
+                    <td><b>0.4154</b></td>
+                    <td><b>4.2892</b></td>
+                    <td><b>4.0547</b></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">Qwen2.5-32b</td>
+                    <td>Citation</td>
+                    <td>0.1078</td>
+                    <td>0.4079</td>
+                    <td>0.6189</td>
+                    <td>4.5388</td>
+                    <td>4.3515</td>
+                    <td>0.1452</td>
+                    <td>0.2779</td>
+                    <td>0.3862</td>
+                    <td>4.6621</td>
+                    <td>4.6188</td>
+                </tr>
+                <tr>
+                    <td><b>THE-tree</b></td>
+                    <td><b>0.1500</b></td>
+                    <td><b>0.4906</b></td>
+                    <td><b>0.6894</b></td>
+                    <td><b>4.0494</b></td>
+                    <td><b>3.9064</b></td>
+                    <td><b>0.1522</b></td>
+                    <td><b>0.2987</b></td>
+                    <td><b>0.4073</b></td>
+                    <td><b>4.4674</b></td>
+                    <td><b>4.3128</b></td>
+                </tr>
+                 <tr>
+                    <td rowspan="2">Gemma-7b</td>
+                    <td>Citation</td>
+                    <td>0.1652</td>
+                    <td>0.6037</td>
+                    <td>0.7550</td>
+                    <td>3.4445</td>
+                    <td>3.4005</td>
+                    <td>0.1022</td>
+                    <td>0.2610</td>
+                    <td>0.3790</td>
+                    <td>4.8544</td>
+                    <td>4.8632</td>
+                </tr>
+                <tr>
+                    <td><b>THE-tree</b></td>
+                    <td><b>0.2431</b></td>
+                    <td><b>0.6250</b></td>
+                    <td><b>0.7798</b></td>
+                    <td><b>3.3706</b></td>
+                    <td><b>3.3276</b></td>
+                    <td><b>0.1243</b></td>
+                    <td><b>0.2674</b></td>
+                    <td><b>0.3849</b></td>
+                    <td><b>4.7426</b></td>
+                    <td><b>4.7069</b></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="has-text-justified">
+          The results show that methods enhanced with THE-Tree consistently identify more important future papers compared to baselines. THE-Tree, with its rich, context-aware semantic relations, demonstrates markedly superior performance, validating its value for scientific foresight.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Experiments -->
+
+<section class="section" id="Supplementary">
+  <div class="container is-max-desktop content">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-fifths">
+        <h2 class="title is-3">🔬 Supplementary Materials</h2>
+
+        <h3 class="title is-4">Data Collection and Dataset Construction</h3>
+        <p>
+          The construction of THE-Tree begins with a comprehensive data collection and processing pipeline from multiple academic sources. A crucial step is the detailed dataset construction from scientific surveys, which transforms unstructured narratives into a structured format suitable for building the evolution trees.
+        </p>
+        <img src="static/images/dataprocess_2.png" alt="Data processing pipeline" width="100%">
+        <p class="has-text-centered">
+          The figure above shows the document processing and metadata extraction pipeline.
+        </p>
+
+        <h4 class="title is-5">Dataset Statistics</h4>
+        <p>Following this methodology, we constructed a dataset comprising 88 THE-Trees.</p>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Total</th>
+                <th>Avg/Topic</th>
+                <th>Avg/THE-tree</th>
+                <th>Avg/human select</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Processed topics</td>
+                <td>88</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+              </tr>
+              <tr>
+                <td>Paper nodes</td>
+                <td>35,392</td>
+                <td>402.18</td>
+                <td>103.14</td>
+                <td>46.49</td>
+              </tr>
+              <tr>
+                <td>Paper edges</td>
+                <td>140,616</td>
+                <td>1597.91</td>
+                <td>255.57</td>
+                <td>204.67</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <h3 class="title is-4">THE-Tree Data Structure</h3>
+        <p>
+          Each node and edge in a THE-Tree encapsulates rich information. Nodes store metadata about papers, while edges define the evolutionary relationships, including semantic meaning, textual evidence, and validation scores from our RA-NLI mechanism.
+        </p>
+        <img src="static/images/datastructure.png" alt="THE-Tree data structure" width="100%">
+      </div>
+    </div>
+  </div>
+</section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
+                target="_blank">Academic Project Page Template</a> which was adopted from the <a
+                href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+              You are free to borrow the of this website, we just ask that you link back to this page in the footer.
+              <br> This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Statcounter tracking code -->
+
+  <!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+  <!-- End of Statcounter Code -->
+
+</body>
+
+</html> 
