@@ -79,9 +79,9 @@
             <div class="is-size-5 publication-authors">
               <!-- Paper authors -->
               <span class="author-block">Xin Wang<sup>1,2</sup>,</span>
-              <span class="author-block">Jiyao Liu<sup>2</sup>,</span>
-              <span class="author-block">Yulong Xiao<sup>2</sup>,</span>
-              <span class="author-block">Junzhi Ning<sup>2</sup>,</span>
+              <span class="author-block">Jiyao Liu<sup>2,3</sup>,</span>
+              <span class="author-block">Yulong Xiao<sup>4</sup>,</span>
+              <span class="author-block">Junzhi Ning<sup>2,5</sup>,</span>
               <span class="author-block">Lihao Liu<sup>2</sup>,</span>
               <span class="author-block">Junjun He<sup>2</sup>,</span>
               <span class="author-block">Botian Shi<sup>2,*</sup>,</span>
@@ -90,8 +90,17 @@
 
             <div class="is-size-5 publication-authors">
               <span class="author-block"><sup>1</sup>Westlake University,</span>
-              <span class="author-block"><sup>2</sup>Shanghai Artificial Intelligence Laboratory</span>
+              <span class="author-block"><sup>2</sup>Shanghai Artificial Intelligence Laboratory,</span>
+              <br><span class="author-block"><sup>3</sup>Fudan University,</span>
+              <span class="author-block"><sup>4</sup>Fuzhou University,</span>
+              <span class="author-block"><sup>5</sup>Imperial College London</span>
               <br><sup>*</sup>Corresponding Author
+            </div>
+            
+            <div class="is-size-5 publication-authors">
+              <a href="mailto:wangxin82@westlake.edu.cn">wangxin82@westlake.edu.cn</a>,
+              <a href="mailto:kyu@westlake.edu.cn">kyu@westlake.edu.cn</a>,
+              <a href="mailto:friskit.china@gmail.com">friskit.china@gmail.com</a>
             </div>
 
                 <!-- Arxiv PDF link -->
@@ -107,7 +116,7 @@
 
                 <!-- Github link -->
                 <span class="link-block">
-                  <a href="https://github.com/Auto-THE/THE-Tree-show" target="_blank"
+                  <a href="https://auto-the.github.io/THE-Tree-show/" target="_blank"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fab fa-github"></i>
@@ -182,14 +191,20 @@
           </p>
           
           <h3 class="title is-4">Leveraging THE-Tree for Verification</h3>
-          <img src="static/images/tree_use_2.png" alt="Using THE-Tree" width="80%">
+          <img src="static/images/tree_use_2.png" alt="Using THE-Tree" width="100%">
           <p>
             Once constructed, a THE-Tree serves as a powerful instrument for verifying and contextualizing new scientific ideas. The process involves identifying the relevant topic space for a new paper, originating candidate paths in the corresponding THE-Tree, and performing historical path retrospection to situate the new research within established knowledge frameworks.
           </p>
 
           <h3 class="title is-4">Automated Construction of THE-Tree</h3>
+          
+          <h4 class="title is-5">THE-Tree Construction Pipeline Overview</h4>
+          <img src="static/images/overview.png" alt="THE-Tree framework" width="100%">
           <p>
-            We developed a computational framework for the automated construction of THE-Trees. This is formulated as an optimization problem to find paths in scientific literature that maximize a composite reward, reflecting node importance and path coherence:
+            The manual construction of comprehensive and accurate THE-Trees for diverse scientific domains
+would be a prohibitively laborious task. Therefore, we develop a computational framework for
+the automated construction of THE-Trees from scientific literature. Our approach formulates this
+construction as an <b>optimization problem</b> to find paths in scientific literature that maximize a <b>composite reward</b>, reflecting node importance and path coherence:
           </p>
           <p class="has-text-centered">
             \[ \max_{\text{Path}} \left( \sum_{v \in \text{Path}} S(v) + R_{\text{gen}} + R_{\text{attr}} \right) \]
@@ -205,8 +220,7 @@
           </p>
         </div>
 
-        <h4 class="title is-5">THE-Tree Construction Pipeline Overview</h4>
-        <img src="static/images/overview.png" alt="THE-Tree framework" width="100%">
+
         <div class="content has-text-justified">
           <p>The construction pipeline consists of several key stages:</p>
           <ul>
@@ -302,7 +316,7 @@
                 <td>28.9</td>
               </tr>
               <tr>
-                <td>GPT4-O</td>
+                <td>GPT-4o</td>
                 <td>99.63</td>
                 <td>2.24</td>
                 <td>26.02</td>
@@ -365,7 +379,7 @@
                 <td><span style="color:red;">60.84</span></td>
               </tr>
               <tr>
-                <td>GPT4-O</td>
+                <td>GPT-4o</td>
                 <td>99.66</td>
                 <td><span style="color:red;">2.66</span></td>
                 <td><span style="color:red;">27.69</span></td>
@@ -399,7 +413,7 @@
         </div>
         <div class="content has-text-justified">
            <p>
-              The results indicate that by providing scientific evolutionary context, THE-Tree significantly enhances the LLM's capability to determine paper acceptance. This augmentation notably improves the model's ability to reject low-quality submissions and is highly effective in identifying high-impact papers (Orals, Spotlights), in some cases nearly doubling the accuracy.
+              The results indicate that by providing scientific evolutionary context, THE-Tree significantly enhances the LLM's capability to determine paper acceptance. The data highlighted in <span style="color:red;">red</span> shows the performance after using THE-Tree, demonstrating a notable improvement in the model's ability to reject low-quality submissions and identify high-impact papers (Orals, Spotlights), in some cases nearly doubling the accuracy.
            </p>
         </div>
         
