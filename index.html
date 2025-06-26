@@ -43,6 +43,7 @@
   <script src="static/js/bulma-slider.min.js"></script>
   <script src="static/js/index.js"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
   <style>
     .findings-box {
       border: 2px solid #d0d9e0;
@@ -179,6 +180,28 @@
   </div>
 </section>
 
+<!-- Interactive THE-Tree visualization -->
+<section class="section" id="interactive-vis">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full has-text-centered">
+        <h2 class="title is-3">Interactive THE-Tree Example: The Evolution of Natural Language Processing</h2>
+        <p class="subtitle is-5">Click on a node (paper) or an edge (relation) to see details. Drag nodes to rearrange.</p>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column">
+        <div id="vis-network-container">
+          <div id="the-tree-vis-new"></div>
+          <div id="info-panel-new" class="is-hidden">
+            <button id="close-panel-new" class="delete"></button>
+            <div id="info-content-new"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- Framework -->
 <section class="section" id="Framework">
@@ -891,6 +914,318 @@ construction as an <b>optimization problem</b> to find paths in scientific liter
   <!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
 
   <!-- End of Statcounter Code -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // --- CURATED SUBGRAPH DATA (NLP EVOLUTION) ---
+    const embeddedNodes = [
+        // Foundational Era: RNNs & Embeddings
+        { id: "Long Short-Term Memory", abbreviation: "LSTM", group: "foundation", year: "1997", citations: 86792, author: "S. Hochreiter & J. Schmidhuber", abstract: "Introduced LSTM networks to combat the vanishing gradient problem in RNNs, enabling learning over long sequences." },
+        { id: "Efficient Estimation of Word Representations in Vector Space", abbreviation: "Word2Vec", group: "foundation", year: "2013", citations: 33807, author: "T. Mikolov, K. Chen, et al.", abstract: "Proposed Word2Vec, a computationally-efficient model for learning dense vector representations of words from raw text." },
+        { id: "Deep contextualized word representations", abbreviation: "ELMo", group: "foundation", year: "2018", citations: 11571, author: "M. E. Peters, M. Neumann, et al.", abstract: "Introduced ELMo (Embeddings from Language Models), a type of deep contextualized word representation that models complex characteristics of word use." },
+
+        // The Transformer Revolution
+        { id: "Attention is All you Need", abbreviation: "Transformer", group: "transformer", year: "2017", citations: 119090, author: "A. Vaswani, N. Shazeer, et al.", abstract: "Proposed the Transformer, a novel network architecture based solely on attention mechanisms, dispensing with recurrence and convolutions entirely." },
+        
+        // Pre-training Era: BERT & GPT
+        { id: "Improving language understanding by generative pre-training", abbreviation: "GPT-1", group: "pretraining", year: "2018", citations: 10850, author: "A. Radford, K. Narasimhan, et al.", abstract: "Demonstrated the effectiveness of generative pre-training for language understanding, introducing the first GPT model." },
+        { id: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", abbreviation: "BERT", group: "pretraining", year: "2018", citations: 84333, author: "J. Devlin, M. Chang, et al.", abstract: "Introduced BERT, which pre-trains deep bidirectional representations by jointly conditioning on both left and right context in all layers." },
+        { id: "Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context", group: "pretraining", year: "2019", citations: 1351, author: "Z. Dai, Z. Yang, et al.", abstract: "Proposed Transformer-XL that enables learning dependency beyond a fixed length without disrupting temporal coherence, by introducing a recurrence mechanism." },
+        { id: "Distilbert, a distilled version of bert: smaller, faster, cheaper and lighter", group: "pretraining", year: "2019", citations: 6827, author: "V. Sanh, L. Debut, et al.", abstract: "Leveraged knowledge distillation during pre-training to reduce the size of a BERT model by 40% while retaining 97% of its capabilities." },
+
+        // Scaling & Few-Shot Era
+        { id: "Language Models are Few-Shot Learners", abbreviation: "GPT-3", group: "scaling", year: "2020", citations: 27958, author: "T. B. Brown, B. Mann, et al.", abstract: "Showed that scaling up language models greatly improves task-agnostic, few-shot performance, sometimes reaching competitiveness with prior state-of-the-art fine-tuning approaches. This is the GPT-3 paper." },
+        
+        // Instruction Tuning & Reasoning Era
+        { id: "Training language models to follow instructions with human feedback", abbreviation: "InstructGPT / RLHF", group: "reasoning", year: "2022", citations: 10812, author: "L. Ouyang, J. Wu, et al.", abstract: "Showed that fine-tuning with human feedback can significantly improve a model's ability to follow user intentions, leading to the InstructGPT models." },
+        { id: "Emergent abilities of large language models", group: "scaling", year: "2022", citations: 2147, author: "J. Wei, Y. Tay, et al.", abstract: "Discussed an unpredictable phenomenon where abilities not present in small models emerge in large models, which cannot be predicted by simple extrapolation." },
+        { id: "Chain of thought prompting elicits reasoning in large language models", abbreviation: "CoT", group: "reasoning", year: "2022", citations: 7248, author: "J. Wei, X. Wang, et al.", abstract: "Showed that generating a series of intermediate reasoning steps (a chain of thought) significantly improves the ability of large language models to perform complex reasoning." },
+        { id: "Least-to-most prompting enables complex reasoning in large language models", group: "reasoning", year: "2022", citations: 955, author: "D. Zhou, N. Schärli, et al.", abstract: "Proposed a strategy to break down a complex problem into a series of simpler subproblems and then solve them in sequence, enabling generalization to harder problems." },
+        { id: "Selection-inference: Exploiting large language models for interpretable logical reasoning", abbreviation: "SI", group: "reasoning", year: "2022", citations: 325, author: "A. Creswell, M. Shanahan, et al.", abstract: "Proposed a Selection-Inference framework that alternates between selecting and inferring to generate a series of interpretable, causal reasoning steps." },
+        { id: "Sparks of artificial general intelligence: Early experiments with gpt-4", group: "scaling", year: "2023", citations: 2739, author: "S. Bubeck, V. Chandrasekaran, et al.", abstract: "Contended that early versions of GPT-4 exhibit more general intelligence than previous AI models, showing sparks of Artificial General Intelligence (AGI)." },
+        { id: "Why think step-by-step? reasoning emerges from the locality of experience", group: "reasoning", year: "2023", citations: 79, author: "B. Prystawski & N. D. Goodman", abstract: "Investigated why chain-of-thought is useful, hypothesizing that it works when training data consists of local clusters of variables that influence each other strongly." },
+        
+        // Knowledge-enhanced Reasoning
+        { id: "Scalable multi-hop relational reasoning for knowledge-aware question answering", group: "knowledge", year: "2020", citations: 77, author: "Y. Feng, X. Chen, et al.", abstract: "Proposed a multi-hop graph relation network to equip pre-trained language models with relational reasoning capabilities over knowledge graphs." },
+        { id: "QA-GNN: reasoning with language models and knowledge graphs for question answering", group: "knowledge", year: "2021", citations: 148, author: "M. Yasunaga, H. Ren, et al.", abstract: "Proposed a model which uses LMs to score the relevance of knowledge graph nodes and performs joint reasoning over the QA context and KG." },
+        { id: "Greaselm: Graph reasoning enhanced language models", group: "knowledge", year: "2022", citations: 199, author: "X. Zhang, A. Bosselut, et al.", abstract: "Proposed a model that fuses encoded representations from pretrained LMs and graph neural networks over multiple layers of modality interaction." }
+    ].map(n => ({...n, title: n.id})); // Ensure title is present
+
+    const embeddedEdges = [
+        // Foundational Path
+        { from: "Long Short-Term Memory", to: "Efficient Estimation of Word Representations in Vector Space", type: "Conceptual Branch", breakthrough: "From Sparse Inputs to Dense Vectors", description: "Word2Vec creates dense vector representations (embeddings) for words, providing semantically rich inputs for sequence models like LSTMs, replacing traditional one-hot encodings." },
+        { from: "Efficient Estimation of Word Representations in Vector Space", to: "Deep contextualized word representations", type: "Direct Evolution", breakthrough: "From Static to Dynamic Contextual Word Vectors", description: "By using a bidirectional LSTM, ELMo enables the vector representation of each word to change dynamically based on its context, overcoming the limitation of Word2Vec where each word has only one static vector." },
+        { from: "Long Short-Term Memory", to: "Attention is All you Need", type: "Direct Evolution", breakthrough: "Replacing Recurrence with Attention", description: "The Transformer architecture completely discards the sequential recurrent structure of models like LSTMs, using only self-attention mechanisms to process all words in a sequence. This dramatically improves parallelization and efficiency in handling long-range dependencies." },
+
+        // Post-Transformer: Two Main Branches (BERT & GPT)
+        { from: "Attention is All you Need", to: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", type: "Direct Evolution", breakthrough: "Bidirectional Pre-training & Masked Language Model", description: "BERT was the first to apply the Transformer's encoder architecture to deep bidirectional pre-training. Using a 'Masked Language Model' (MLM) task, it can use both left and right context simultaneously, achieving breakthrough results on various NLU benchmarks." },
+        { from: "Attention is All you Need", to: "Improving language understanding by generative pre-training", type: "Direct Evolution", breakthrough: "The Generative Pre-training Paradigm", description: "The GPT model was the first to demonstrate the immense potential of large-scale unsupervised generative pre-training on a Transformer decoder architecture, followed by fine-tuning on downstream tasks, pioneering the GPT series of models." },
+        { from: "Attention is All you Need", to: "Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context", type: "Conceptual Branch", breakthrough: "Segment-Level Recurrence & Relative Positional Encoding", description: "By introducing a segment-level recurrence mechanism and a novel relative positional encoding scheme, Transformer-XL addresses the fixed-length context problem of the original Transformer, enabling it to learn longer-term dependencies." },
+        { from: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", to: "Distilbert, a distilled version of bert: smaller, faster, cheaper and lighter", type: "Conceptual Branch", breakthrough: "Model Distillation and Compression", description: "DistilBERT demonstrated how knowledge distillation can reduce BERT's model size by 40% and increase its speed by 60% while retaining 97% of its performance, paving the way for using pre-trained models in resource-constrained environments." },
+
+        // Scaling and Instruction Path
+        { from: "Improving language understanding by generative pre-training", to: "Language Models are Few-Shot Learners", type: "Direct Evolution", breakthrough: "Few-Shot Learning Through Massive Scale", description: "By scaling up model parameters to an unprecedented 175 billion, GPT-3 shockingly demonstrated that massive language models can perform various tasks without fine-tuning, using only a few examples (few-shot) or even no examples (zero-shot)." },
+        { from: "Language Models are Few-Shot Learners", to: "Training language models to follow instructions with human feedback", type: "Direct Evolution", breakthrough: "Instruction Fine-tuning & Human Alignment", description: "This work (InstructGPT) proved that simply scaling up models does not make them better at following user intent. Fine-tuning with Reinforcement Learning from Human Feedback (RLHF) allows models to align better with human values, generating more helpful and safer responses." },
+        { from: "Language Models are Few-Shot Learners", to: "Emergent abilities of large language models", type: "Conceptual Branch", breakthrough: "Discovery of 'Emergent Abilities'", description: "This paper systematically proposed and discussed the phenomenon of 'emergent abilities,' where complex capabilities (like multi-step reasoning) suddenly appear once model scale reaches a certain threshold, a phenomenon that cannot be predicted by extrapolating from smaller models." },
+        
+        // Reasoning Enhancement Path
+        { from: "Training language models to follow instructions with human feedback", to: "Chain of thought prompting elicits reasoning in large language models", type: "Direct Evolution", breakthrough: "Chain-of-Thought (CoT) Prompting", description: "CoT proved that by including examples with intermediate reasoning steps in prompts, the ability of large language models to solve complex reasoning problems can be significantly elicited without modifying the model itself." },
+        { from: "Chain of thought prompting elicits reasoning in large language models", to: "Least-to-most prompting enables complex reasoning in large language models", type: "Direct Evolution", breakthrough: "Least-to-Most Prompting Strategy", description: "Least-to-most prompting breaks down a complex problem into a series of simpler subproblems and solves them sequentially, enabling the model to generalize better to problems harder than the prompt examples." },
+        { from: "Chain of thought prompting elicits reasoning in large language models", to: "Why think step-by-step? reasoning emerges from the locality of experience", type: "Conceptual Branch", breakthrough: "A Theoretical Explanation for CoT's Effectiveness", description: "This work theoretically explores why 'step-by-step' thinking is effective, arguing that this ability stems from strong local dependencies between variables in the training data, allowing the model to chain accurate local inferences to solve global problems." },
+        { from: "Training language models to follow instructions with human feedback", to: "Sparks of artificial general intelligence: Early experiments with gpt-4", type: "Direct Evolution", breakthrough: "Sparks of Artificial General Intelligence (AGI)", description: "Through extensive experiments on an early version of GPT-4, this paper argues that the new generation of LLMs exhibits more general intelligence than previous models and could be viewed as an early, yet incomplete, version of AGI." },
+
+        // Knowledge-Enhanced Path
+        { from: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", to: "Scalable multi-hop relational reasoning for knowledge-aware question answering", type: "Conceptual Branch", breakthrough: "Multi-hop Reasoning with Knowledge Graphs", description: "To enable language models to use external knowledge, this work equipped pre-trained models with a multi-hop graph relation network, allowing for scalable and interpretable multi-step relational reasoning over knowledge graphs." },
+        { from: "Scalable multi-hop relational reasoning for knowledge-aware question answering", to: "QA-GNN: reasoning with language models and knowledge graphs for question answering", type: "Direct Evolution", breakthrough: "Joint Reasoning with LMs and GNNs", description: "QA-GNN uses LMs to assess the relevance of knowledge graph nodes to the question and constructs a joint graph of the question and KG. It uses a graph message passing mechanism to mutually update their representations for deeper joint reasoning." },
+        { from: "QA-GNN: reasoning with language models and knowledge graphs for question answering", to: "Greaselm: Graph reasoning enhanced language models", type: "Direct Evolution", breakthrough: "Deep Fusion of LMs and Graph Models", description: "GreaseLM deeply fuses encoded representations from pre-trained LMs and GNNs through multi-layer modality interaction, allowing language context to be 'grounded' by structured knowledge, and graph representations to be influenced by linguistic nuances." },
+        { from: "Chain of thought prompting elicits reasoning in large language models", to: "Selection-inference: Exploiting large language models for interpretable logical reasoning", type: "Direct Evolution", breakthrough: "The Selection-Inference (SI) Framework", description: "The SI framework utilizes pre-trained LMs as general processing modules, alternating between 'selection' and 'inference' to generate a series of interpretable, causal, natural-language reasoning steps to solve complex logical problems." }
+    ];
+    // --- END OF CURATED DATA ---
+
+    buildVisualizationWithEmbeddedData(embeddedNodes, embeddedEdges);
+});
+
+function buildVisualizationWithEmbeddedData(nodesData, edgesData) {
+    const visContainer = document.getElementById('the-tree-vis-new');
+    const infoPanel = document.getElementById('info-panel-new');
+    const infoContent = document.getElementById('info-content-new');
+    const closePanel = document.getElementById('close-panel-new');
+
+    if (!visContainer) {
+        console.error('Visualization container not found!');
+        return;
+    }
+    
+    const nodeIds = new Set(nodesData.map(n => n.id));
+    edgesData.forEach(edge => {
+        if (!nodeIds.has(edge.from)) {
+            console.warn(`Edge source node not found: ${edge.from}`);
+        }
+        if (!nodeIds.has(edge.to)) {
+            console.warn(`Edge target node not found: ${edge.to}`);
+        }
+    });
+
+    const nodes = new vis.DataSet();
+    const edges = new vis.DataSet();
+
+    nodesData.forEach(node => {
+        nodes.add({
+            id: node.id,
+            label: node.title.split(' ').slice(0, 4).join(' ') + (node.title.split(' ').length > 4 ? '...' : ''),
+            title: node.title,
+            shape: 'box',
+            margin: 10,
+            group: node.group,
+            details: {
+                title: node.title,
+                abbreviation: node.abbreviation,
+                authors: node.author,
+                year: node.year,
+                citations: node.citations,
+                abstract: node.abstract
+            }
+        });
+    });
+
+    edgesData.forEach(edge => {
+        edges.add({
+            from: edge.from,
+            to: edge.to,
+            arrows: 'to',
+            label: edge.type,
+            font: { align: 'middle', size: 12, color: '#555' },
+            details: {
+                type: edge.type,
+                breakthrough: edge.breakthrough,
+                description: edge.description
+            }
+        });
+    });
+
+    if (nodes.length === 0) {
+        visContainer.innerHTML = '<p class="has-text-centered">Embedded data is empty.</p>';
+        return;
+    }
+
+    const data = { nodes: nodes, edges: edges };
+    const options = {
+        layout: {
+            hierarchical: {
+                enabled: true,
+                direction: 'UD', // Up-Down layout
+                sortMethod: 'directed',
+                levelSeparation: 160,
+                nodeSpacing: 200,
+                treeSpacing: 220,
+                blockShifting: true,
+                edgeMinimization: true,
+                parentCentralization: true
+            }
+        },
+        physics: {
+            enabled: false // Disable physics for a stable hierarchical layout
+        },
+        interaction: {
+            dragNodes: true,
+            hover: true,
+            tooltipDelay: 200,
+            navigationButtons: true,
+        },
+        nodes: {
+            borderWidth: 2,
+            shape: 'box',
+            shadow: {
+                enabled: true,
+                color: 'rgba(0,0,0,0.15)',
+                size: 5,
+                x: 3,
+                y: 3
+            },
+            shapeProperties: { borderRadius: 6 }
+        },
+        edges: {
+            width: 2,
+            color: { color: '#848484', highlight: '#2b7ce9', hover: '#2b7ce9' },
+            shadow: {
+                enabled: true,
+                color: 'rgba(0,0,0,0.1)',
+                size: 5,
+                x: 2,
+                y: 2
+            },
+            smooth: {
+                enabled: true,
+                type: 'cubicBezier',
+                forceDirection: 'vertical',
+                roundness: 0.4
+            }
+        },
+        groups: {
+            foundation: { color: { background: '#fcf6e3', border: '#f8d27a' }, font: {size: 14, face: 'Helvetica'} },
+            transformer: { color: { background: '#e0f0e9', border: '#66bb6a' }, font: { size: 16, face: 'Helvetica', multi: 'html', bold: true } },
+            pretraining: { color: { background: '#e3f2fd', border: '#64b5f6' }, font: {size: 14, face: 'Helvetica'} },
+            scaling: { color: { background: '#ede7f6', border: '#9575cd' }, font: {size: 14, face: 'Helvetica'} },
+            reasoning: { color: { background: '#fbe9e7', border: '#ff8a65' }, font: {size: 14, face: 'Helvetica'} },
+            knowledge: { color: { background: '#f1f8e9', border: '#aed581' }, font: {size: 14, face: 'Helvetica'} }
+        }
+    };
+
+    const network = new vis.Network(visContainer, data, options);
+
+    // Turn off physics after stabilization to prevent continuous jittering
+    /* network.on("stabilizationIterationsDone", function () {
+      network.setOptions( { physics: false } );
+    }); */
+
+    closePanel.addEventListener('click', () => {
+        infoPanel.classList.add('is-hidden');
+    });
+
+    const showInfo = (content) => {
+        infoContent.innerHTML = content;
+        infoPanel.classList.remove('is-hidden');
+    };
+
+    network.on('click', function (params) {
+        if (params.nodes.length > 0) {
+            const node = nodes.get(params.nodes[0]);
+            if (node.details) {
+                showInfo(`
+                    <p class="panel-heading">${node.details.title} ${node.details.abbreviation ? `(${node.details.abbreviation})` : ''}</p>
+                    <div class="panel-block"><strong>Authors:</strong> ${node.details.authors}</div>
+                    <div class="panel-block"><strong>Year:</strong> ${node.details.year} &nbsp;|&nbsp; <strong>Citations:</strong> ${node.details.citations.toLocaleString()}</div>
+                    <div class="panel-block has-text-justified"><p><strong>Abstract:</strong> ${node.details.abstract}</p></div>
+                `);
+            }
+        } else if (params.edges.length > 0) {
+            const edge = edges.get(params.edges[0]);
+            if (edge.details) {
+                showInfo(`
+                    <p class="panel-heading">Relation Details</p>
+                    <div class="panel-block"><strong>Evolution Type:</strong> ${edge.details.type}</div>
+                    <div class="panel-block has-text-justified"><p><strong>Potential Breakthrough:</strong> ${edge.details.breakthrough}</p></div>
+                    <div class="panel-block has-text-justified"><p><strong>Description:</strong> ${edge.details.description}</p></div>
+                `);
+            }
+        } else {
+            infoPanel.classList.add('is-hidden');
+        }
+    });
+}
+</script>
+
+<style>
+#vis-network-container {
+    position: relative;
+    width: 100%;
+    height: 750px;
+    border: 1px solid #dbdbdb;
+    border-radius: 6px;
+    background: linear-gradient(to bottom, #f7f9fc, #eef2f7);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+#the-tree-vis-new {
+    width: 100%;
+    height: 100%;
+}
+
+#info-panel-new {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 380px;
+    max-height: calc(100% - 30px);
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.97);
+    border-radius: 6px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border: 1px solid #ccc;
+    z-index: 10;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transform: translateX(0);
+}
+
+#info-panel-new.is-hidden {
+    display: block !important;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(20px);
+}
+
+#info-panel-new .panel-heading {
+    background-color: #2c3e50;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding: 12px 18px;
+}
+
+#info-panel-new .panel-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 18px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    border-bottom: 1px solid #e0e0e0;
+}
+#info-panel-new .panel-block:last-child { border-bottom: none; }
+#info-panel-new .panel-block strong { margin-bottom: 5px; color: #363636; }
+#info-panel-new .panel-block p { margin-bottom: 0; }
+
+#close-panel-new {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(10, 10, 10, 0.25);
+    z-index: 11;
+}
+#close-panel-new:hover { background-color: rgba(10, 10, 10, 0.5); }
+</style>
 
 </body>
 
